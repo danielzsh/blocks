@@ -28,17 +28,56 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Blocks'),
             ),
-            body: Draggable<IStatement>(
-                data: For(), feedback: ForDrag(), child: ForDrag())));
+            body: Row(children: [
+              Draggable<IStatement>(
+                  data: For(), feedback: ForDrag(), child: ForDrag()),
+              Main(),
+            ])));
   }
 }
 
 abstract class IStatement {
-  late Set<IStatement> body;
-  void run() {
-    for (var statement in body) {
-      statement.run();
-    }
+  late List<IStatement> body;
+  void run() {}
+}
+
+class Main extends StatefulWidget {
+  Main({Key? key}) : super(key: key);
+  @override
+  State<Main> createState() => _MainState();
+}
+
+class _MainState extends State<Main> implements IStatement {
+  @override
+  var body = <IStatement>[];
+  @override
+  void run() {}
+  @override
+  Widget build(BuildContext context) {
+    return DragTarget<IStatement>(
+      builder: ((context, candidateData, rejectedData) {
+        return Container(
+          decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              border: Border.all(
+                  color: candidateData.isNotEmpty ? Colors.red : Colors.black)),
+          height: 40,
+          margin: const EdgeInsets.all(8),
+          child: Container(
+              margin: const EdgeInsets.all(8),
+              child: const Text(
+                'main',
+                style: TextStyle(color: Colors.white),
+              )),
+        );
+      }),
+      onAccept: (statement) {
+        setState(() {
+          body.add(statement);
+        });
+      },
+    );
   }
 }
 
@@ -69,7 +108,7 @@ class ForDrag extends StatelessWidget {
 class For extends StatelessWidget implements IStatement {
   For({Key? key}) : super(key: key);
   @override
-  var body = <IStatement>{};
+  var body = <IStatement>[];
   @override
   Widget build(BuildContext context) {
     return Container(
