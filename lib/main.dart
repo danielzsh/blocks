@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Blocks'),
             ),
-            body: For()));
+            body: Draggable<IStatement>(
+                data: For(), feedback: ForDrag(), child: ForDrag())));
   }
 }
 
@@ -38,6 +39,30 @@ abstract class IStatement {
     for (var statement in body) {
       statement.run();
     }
+  }
+}
+
+class ForDrag extends StatelessWidget {
+  const ForDrag({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      width: 100,
+      height: 40,
+      margin: const EdgeInsets.all(8),
+      child: Container(
+          margin: const EdgeInsets.all(8),
+          child: const Text('for ___ in ____',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  decoration: TextDecoration.none,
+                  fontWeight: FontWeight.normal))),
+    );
   }
 }
 
