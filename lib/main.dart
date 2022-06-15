@@ -39,6 +39,9 @@ class MyApp extends StatelessWidget {
 abstract class IStatement {
   late List<IStatement> body;
   void run() {}
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
 
 class Main extends StatefulWidget {
@@ -54,23 +57,34 @@ class _MainState extends State<Main> implements IStatement {
   void run() {}
   @override
   Widget build(BuildContext context) {
+    var children = body.map(
+      (e) {
+        return e.build(context);
+      },
+    );
     return DragTarget<IStatement>(
       builder: ((context, candidateData, rejectedData) {
-        return Container(
-          decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              border: Border.all(
-                  color: candidateData.isNotEmpty ? Colors.red : Colors.black)),
-          height: 40,
-          margin: const EdgeInsets.all(8),
-          child: Container(
-              margin: const EdgeInsets.all(8),
-              child: const Text(
-                'main',
-                style: TextStyle(color: Colors.white),
-              )),
-        );
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                        color: candidateData.isNotEmpty
+                            ? Colors.red
+                            : Colors.black)),
+                height: 40,
+                margin: const EdgeInsets.all(8),
+                child: Container(
+                    margin: const EdgeInsets.all(8),
+                    child: const Text(
+                      'main',
+                      style: TextStyle(color: Colors.white),
+                    )),
+              )
+            ]..addAll(children));
       }),
       onAccept: (statement) {
         setState(() {
