@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Blocks'),
             ),
-            body: Row(children: [
+            body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Draggable<IStatement>(
                   data: For(), feedback: ForDrag(), child: ForDrag()),
               Main(),
@@ -64,27 +64,30 @@ class _MainState extends State<Main> implements IStatement {
     );
     return DragTarget<IStatement>(
       builder: ((context, candidateData, rejectedData) {
-        return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(
-                        color: candidateData.isNotEmpty
-                            ? Colors.red
-                            : Colors.black)),
-                height: 40,
-                margin: const EdgeInsets.all(8),
-                child: Container(
+        return Container(
+            width: 500,
+            child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(
+                            color: candidateData.isNotEmpty
+                                ? Colors.red
+                                : Colors.black)),
+                    height: 40,
                     margin: const EdgeInsets.all(8),
-                    child: const Text(
-                      'main',
-                      style: TextStyle(color: Colors.white),
-                    )),
-              )
-            ]..addAll(children));
+                    child: Container(
+                        margin: const EdgeInsets.all(8),
+                        child: const Text(
+                          'on start: ',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
+                ]..addAll(children)));
       }),
       onAccept: (statement) {
         setState(() {
