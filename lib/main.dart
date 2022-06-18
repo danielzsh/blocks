@@ -24,11 +24,24 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: Scaffold(
-            appBar: AppBar(
-              title: const Text('Blocks'),
-            ),
-            body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        home: HomePage());
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Blocks'),
+        ),
+        body: Container(
+            width: queryData.size.width,
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Draggable<IStatement>(
                   data: For(), feedback: ForDrag(), child: ForDrag()),
               Main(),
@@ -62,39 +75,35 @@ class _MainState extends State<Main> implements IStatement {
         return e.build(context);
       },
     );
-    return DragTarget<IStatement>(
-      builder: ((context, candidateData, rejectedData) {
-        return Container(
-            width: 500,
-            child: ListView(
-                shrinkWrap: true,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(
-                            color: candidateData.isNotEmpty
-                                ? Colors.red
-                                : Colors.black)),
-                    height: 40,
-                    margin: const EdgeInsets.all(8),
-                    child: Container(
-                        margin: const EdgeInsets.all(8),
-                        child: const Text(
-                          'on start: ',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                  ),
-                ]..addAll(children)));
-      }),
-      onAccept: (statement) {
-        setState(() {
-          body.add(statement);
-        });
-      },
-    );
+    return Expanded(
+        child: ListView(
+            children: [
+      DragTarget<IStatement>(
+        builder: ((context, candidateData, rejectedData) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(
+                      color: candidateData.isNotEmpty
+                          ? Colors.red
+                          : Colors.black)),
+              height: 40,
+              margin: const EdgeInsets.all(8),
+              child: Container(
+                  margin: const EdgeInsets.all(8),
+                  child: const Text(
+                    'on start: ',
+                    style: TextStyle(color: Colors.white),
+                  )));
+        }),
+        onAccept: (statement) {
+          setState(() {
+            body.add(statement);
+          });
+        },
+      ),
+    ]..addAll(children)));
   }
 }
 
@@ -134,7 +143,7 @@ class For extends StatelessWidget implements IStatement {
         height: 50,
         decoration: const BoxDecoration(
             color: Colors.black,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
