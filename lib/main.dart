@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:blocks/block_widgets/all.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: HomePage());
+        home: const HomePage());
   }
 }
 
@@ -33,148 +34,16 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Blocks'),
         ),
-        body: Container(
-            width: queryData.size.width,
-            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Draggable<IStatement>(
-                  data: For(), feedback: ForDrag(), child: ForDrag()),
-              Main(),
-            ])));
-  }
-}
-
-abstract class IStatement {
-  late List<IStatement> body;
-  void run() {}
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class Main extends StatefulWidget {
-  Main({Key? key}) : super(key: key);
-  @override
-  State<Main> createState() => _MainState();
-}
-
-class _MainState extends State<Main> implements IStatement {
-  @override
-  var body = <IStatement>[];
-  @override
-  void run() {}
-  @override
-  Widget build(BuildContext context) {
-    var children = body.map(
-      (e) {
-        return e.build(context);
-      },
-    );
-    return Expanded(
-        child: ListView(
-            children: [
-      DragTarget<IStatement>(
-        builder: ((context, candidateData, rejectedData) {
-          return Container(
-              decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                      color: candidateData.isNotEmpty
-                          ? Colors.red
-                          : Colors.black)),
-              height: 40,
-              margin: const EdgeInsets.all(8),
-              child: Container(
-                  margin: const EdgeInsets.all(8),
-                  child: const Text(
-                    'on start: ',
-                    style: TextStyle(color: Colors.white),
-                  )));
-        }),
-        onAccept: (statement) {
-          setState(() {
-            body.add(statement);
-          });
-        },
-      ),
-    ]..addAll(children)));
-  }
-}
-
-class ForDrag extends StatelessWidget {
-  const ForDrag({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      width: 100,
-      height: 40,
-      margin: const EdgeInsets.all(8),
-      child: Container(
-          margin: const EdgeInsets.all(8),
-          child: const Text('for ___ in ____',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  decoration: TextDecoration.none,
-                  fontWeight: FontWeight.normal))),
-    );
-  }
-}
-
-class For extends StatelessWidget implements IStatement {
-  For({Key? key}) : super(key: key);
-  @override
-  var body = <IStatement>[];
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        width: 320,
-        height: 50,
-        decoration: const BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const <Widget>[
-                Text('for', style: TextStyle(color: Colors.white)),
-                Expanded(child: TextBox()),
-                Text('in range', style: TextStyle(color: Colors.white)),
-                Expanded(child: TextBox()),
-                Text('to', style: TextStyle(color: Colors.white)),
-                Expanded(child: TextBox()),
-              ],
-            )));
-  }
-
-  @override
-  void run() {}
-}
-
-class TextBox extends StatelessWidget {
-  const TextBox({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: TextField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.white),
-        ));
+        body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Draggable<IStatement>(
+              data: ForState(),
+              feedback: const ForDrag(),
+              child: const ForDrag()),
+          const Main(),
+        ]));
   }
 }
