@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'statement_base.dart';
 
 class DragArea extends StatefulWidget {
-  const DragArea({Key? key}) : super(key: key);
+  final Set? options;
+  const DragArea({Key? key, this.options}) : super(key: key);
 
   @override
   State<DragArea> createState() => _DragAreaState();
@@ -23,13 +24,16 @@ class _DragAreaState extends State<DragArea> {
                         candidateData.isNotEmpty ? Colors.red : Colors.black)),
             child: content == null
                 ? Container(
-                    decoration: const BoxDecoration(color: Colors.white),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                   )
                 : content?.build(context));
       },
       onAccept: (statement) {
         setState(() {
-          content = statement;
+          if (widget.options == null ||
+              widget.options!.contains(statement.type)) content = statement;
         });
       },
     );

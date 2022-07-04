@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'statement_base.dart';
 
@@ -11,6 +13,8 @@ class _MainState extends State<Main> implements IStatement {
   @override
   var body = <IStatement>[];
   @override
+  String type = "main";
+  @override
   void run() {}
   @override
   Widget build(BuildContext context) {
@@ -20,8 +24,7 @@ class _MainState extends State<Main> implements IStatement {
       },
     );
     return Expanded(
-        child: ListView(
-            children: [
+        child: ListView(children: [
       DragTarget<IStatement>(
         builder: ((context, candidateData, rejectedData) {
           return Container(
@@ -47,6 +50,7 @@ class _MainState extends State<Main> implements IStatement {
           });
         },
       ),
-    ]..addAll(children)));
+      ...children,
+    ]));
   }
 }

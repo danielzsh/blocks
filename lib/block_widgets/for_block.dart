@@ -51,6 +51,8 @@ class For extends StatefulWidget {
 
 class ForState extends State<For> implements IStatement {
   @override
+  String type = "for";
+  @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -64,7 +66,7 @@ class ForState extends State<For> implements IStatement {
               mainAxisAlignment: MainAxisAlignment.start,
               children: const <Widget>[
                 Text('for', style: TextStyle(color: Colors.white)),
-                Expanded(child: DragArea()),
+                Expanded(child: DragArea(options: {"variable"})),
                 Text('in', style: TextStyle(color: Colors.white)),
                 Expanded(child: DragArea()),
               ],
