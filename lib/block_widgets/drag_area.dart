@@ -33,7 +33,9 @@ class _DragAreaState extends State<DragArea> {
       onAccept: (statement) {
         setState(() {
           if (widget.options == null ||
-              widget.options!.contains(statement.type)) content = statement;
+              widget.options!.contains(statement.runtimeType)) {
+            content = statement;
+          }
         });
       },
     );

@@ -1,19 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'statement_base.dart';
 
 class Main extends StatefulWidget {
   const Main({Key? key}) : super(key: key);
   @override
-  State<Main> createState() => _MainState();
+  State<Main> createState() => MainState();
 }
 
-class _MainState extends State<Main> implements IStatement {
+class MainState extends State<Main> implements IStatement {
   @override
   var body = <IStatement>[];
-  @override
-  String type = "main";
   @override
   void run() {}
   @override
@@ -23,8 +19,7 @@ class _MainState extends State<Main> implements IStatement {
         return e.build(context);
       },
     );
-    return Expanded(
-        child: ListView(children: [
+    return ListView(children: [
       DragTarget<IStatement>(
         builder: ((context, candidateData, rejectedData) {
           return Container(
@@ -51,6 +46,6 @@ class _MainState extends State<Main> implements IStatement {
         },
       ),
       ...children,
-    ]));
+    ]);
   }
 }

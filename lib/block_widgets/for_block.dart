@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'statement_base.dart';
 import 'drag_area.dart';
+import 'main_block.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox({Key? key}) : super(key: key);
@@ -51,8 +52,6 @@ class For extends StatefulWidget {
 
 class ForState extends State<For> implements IStatement {
   @override
-  String type = "for";
-  @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -66,7 +65,7 @@ class ForState extends State<For> implements IStatement {
               mainAxisAlignment: MainAxisAlignment.start,
               children: const <Widget>[
                 Text('for', style: TextStyle(color: Colors.white)),
-                Expanded(child: DragArea(options: {"variable"})),
+                Expanded(child: DragArea(options: {ForState})),
                 Text('in', style: TextStyle(color: Colors.white)),
                 Expanded(child: DragArea()),
               ],

@@ -43,7 +43,11 @@ class HomePage extends StatelessWidget {
               data: ForState(),
               feedback: const ForDrag(),
               child: const ForDrag()),
-          const Main(),
+          Expanded(
+              child: Column(children: const [
+            Flexible(flex: 2, child: Main()),
+            Flexible(flex: 1, child: Text('Output'))
+          ])),
         ]));
   }
 }
