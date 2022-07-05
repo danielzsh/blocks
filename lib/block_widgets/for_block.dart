@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'statement_base.dart';
 import 'drag_area.dart';
-import 'main_block.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox({Key? key}) : super(key: key);
@@ -19,8 +18,8 @@ class TextBox extends StatelessWidget {
   }
 }
 
-class ForDrag extends StatelessWidget {
-  const ForDrag({Key? key}) : super(key: key);
+class _DragContent extends StatelessWidget {
+  const _DragContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +39,18 @@ class ForDrag extends StatelessWidget {
                   decoration: TextDecoration.none,
                   fontWeight: FontWeight.normal))),
     );
+  }
+}
+
+class ForDrag extends StatelessWidget {
+  const ForDrag({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Draggable<IStatement>(
+        data: ForState(),
+        feedback: const _DragContent(),
+        child: const _DragContent());
   }
 }
 

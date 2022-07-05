@@ -1,3 +1,4 @@
+import 'package:blocks/block_widgets/block_base.dart';
 import 'package:flutter/material.dart';
 import 'statement_base.dart';
 
@@ -10,10 +11,10 @@ class DragArea extends StatefulWidget {
 }
 
 class _DragAreaState extends State<DragArea> {
-  IStatement? content;
+  Block? content;
   @override
   Widget build(BuildContext context) {
-    return DragTarget<IStatement>(
+    return DragTarget<Block>(
       builder: (context, candidateData, rejectedData) {
         return Container(
             margin: const EdgeInsets.all(8),

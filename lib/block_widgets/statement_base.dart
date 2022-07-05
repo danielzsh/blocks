@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'block_base.dart';
 
-abstract class IStatement {
+abstract class IStatement implements Block {
   late List<IStatement> body;
   void run() {}
-  Widget build(BuildContext context) {
-    return Container();
-  }
 }

@@ -39,14 +39,14 @@ class HomePage extends StatelessWidget {
           title: const Text('Blocks'),
         ),
         body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Draggable<IStatement>(
-              data: ForState(),
-              feedback: const ForDrag(),
-              child: const ForDrag()),
+          Column(children: [
+            const ForDrag(),
+            VarDrag(block: VarBlock(val: Var("var"))),
+          ]),
           Expanded(
               child: Column(children: const [
             Flexible(flex: 2, child: Main()),
-            Flexible(flex: 1, child: Text('Output'))
+            Flexible(flex: 1, child: Text('Output:'))
           ])),
         ]));
   }
