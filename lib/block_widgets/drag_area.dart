@@ -23,13 +23,12 @@ class _DragAreaState extends State<DragArea> {
                 border: Border.all(
                     color:
                         candidateData.isNotEmpty ? Colors.red : Colors.black)),
-            child: content == null
-                ? Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                  )
-                : content?.build(context));
+            child: content ??
+                Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                ));
       },
       onAccept: (statement) {
         setState(() {

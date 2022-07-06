@@ -9,18 +9,18 @@ class Main extends StatefulWidget {
 
 class MainState extends State<Main> implements IStatement {
   @override
-  var body = <IStatement>[];
+  var body = <Widget>[];
   @override
   void run() {}
   @override
   Widget build(BuildContext context) {
     var children = body.map(
       (e) {
-        return e.build(context);
+        return e;
       },
     );
     return ListView(children: [
-      DragTarget<IStatement>(
+      DragTarget<Widget>(
         builder: ((context, candidateData, rejectedData) {
           return Container(
               decoration: BoxDecoration(
