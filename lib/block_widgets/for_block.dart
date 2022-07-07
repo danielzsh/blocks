@@ -46,13 +46,13 @@ class _DragContent extends StatelessWidget {
 
 class ForDrag extends StatelessWidget {
   const ForDrag({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Draggable<Widget>(
-        data: For(),
-        feedback: const _DragContent(),
-        child: const _DragContent());
+    return const Draggable<Type>(
+      data: For,
+      feedback: _DragContent(),
+      child: _DragContent(),
+    );
   }
 }
 
@@ -63,7 +63,6 @@ class For extends StatefulWidget {
 }
 
 class ForState extends State<For> implements IStatement {
-  final key = GlobalKey();
   var drag1 = const DragArea(options: {VarBlock});
   var drag2 = const DragArea();
   @override
@@ -71,9 +70,8 @@ class ForState extends State<For> implements IStatement {
     var children = body.map((e) {
       return Container(margin: const EdgeInsets.only(left: 8), child: e);
     });
-    return Expanded(
-        child: ListView(shrinkWrap: true, children: [
-      DragTarget<Widget>(
+    return ListView(shrinkWrap: true, children: [
+      DragTarget<Type>(
         builder: (context, candidateData, rejectedData) {
           return Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -100,12 +98,12 @@ class ForState extends State<For> implements IStatement {
         onAccept: (statement) {
           print('setting state');
           setState(() {
-            body.add(statement);
+            if (statement == For) body.add(For(key: GlobalKey<ForState>()));
           });
         },
       ),
       ...children
-    ]));
+    ]);
   }
 
   @override

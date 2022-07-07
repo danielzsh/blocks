@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'all.dart';
 import 'statement_base.dart';
 
 class Main extends StatefulWidget {
@@ -20,7 +21,7 @@ class MainState extends State<Main> implements IStatement {
       },
     );
     return ListView(children: [
-      DragTarget<Widget>(
+      DragTarget<Type>(
         builder: ((context, candidateData, rejectedData) {
           return Container(
               decoration: BoxDecoration(
@@ -41,7 +42,7 @@ class MainState extends State<Main> implements IStatement {
         }),
         onAccept: (statement) {
           setState(() {
-            body.add(statement);
+            if (statement == For) body.add(For(key: GlobalKey<ForState>()));
           });
         },
       ),
