@@ -1,8 +1,7 @@
 import 'package:blocks/block_widgets/all.dart';
-import 'package:blocks/block_widgets/block_base.dart';
 import 'package:flutter/material.dart';
-import 'statement_base.dart';
-import 'drag_area.dart';
+import 'all.dart';
+import 'package:blocks/keys.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox({Key? key}) : super(key: key);
@@ -68,7 +67,7 @@ class ForState extends State<For> implements IStatement {
   @override
   Widget build(BuildContext context) {
     var children = body.map((e) {
-      return Container(margin: const EdgeInsets.only(left: 8), child: e);
+      return Container(margin: const EdgeInsets.only(left: 16), child: e);
     });
     return ListView(shrinkWrap: true, children: [
       DragTarget<Type>(
@@ -97,6 +96,7 @@ class ForState extends State<For> implements IStatement {
         },
         onAccept: (statement) {
           print('setting state');
+          outputKey.currentState!.print("printed");
           setState(() {
             if (statement == For) body.add(For(key: GlobalKey<ForState>()));
           });
