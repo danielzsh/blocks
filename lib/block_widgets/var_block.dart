@@ -36,6 +36,7 @@ class VarDrag extends StatelessWidget {
   const VarDrag({Key? key, required this.block}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Draggable<Block>(data: block, child: block, feedback: block);
+    return Draggable<String>(
+        data: block.val.name, child: block, feedback: block);
   }
 }

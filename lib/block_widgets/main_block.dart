@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:blocks/utility.dart';
 import 'all.dart';
 
 class Main extends StatefulWidget {
@@ -41,7 +42,7 @@ class MainState extends State<Main> implements IStatement {
         }),
         onAccept: (statement) {
           setState(() {
-            if (statement == For) body.add(For(key: GlobalKey<ForState>()));
+            body.add(buildFromType(statement));
           });
         },
       ),

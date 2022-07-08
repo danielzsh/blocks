@@ -1,4 +1,5 @@
 import 'package:blocks/block_widgets/all.dart';
+import 'package:blocks/utility.dart';
 import 'package:flutter/material.dart';
 import 'all.dart';
 import 'package:blocks/keys.dart';
@@ -62,7 +63,7 @@ class For extends StatefulWidget {
 }
 
 class ForState extends State<For> implements IStatement {
-  var drag1 = const DragArea(options: {VarBlock});
+  var drag1 = const DragArea(options: {String});
   var drag2 = const DragArea();
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,7 @@ class ForState extends State<For> implements IStatement {
           print('setting state');
           outputKey.currentState!.print("printed");
           setState(() {
-            if (statement == For) body.add(For(key: GlobalKey<ForState>()));
+            body.add(buildFromType(statement));
           });
         },
       ),

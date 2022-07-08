@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:blocks/block_widgets/all.dart';
 import 'keys.dart';
+import 'utility.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,19 +37,28 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Blocks'),
-        ),
-        body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Column(children: [
-            const ForDrag(),
-            VarDrag(block: VarBlock(val: Var("var"))),
-          ]),
-          Expanded(
-              child: Column(children: [
-            Flexible(flex: 2, child: Main()),
-            Flexible(flex: 1, child: Output(key: outputKey))
-          ])),
-        ]));
+      appBar: AppBar(
+        title: const Text('Blocks'),
+      ),
+      body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Column(children: [
+          const ForDrag(),
+          VarDrag(block: VarBlock(val: Var("var"))),
+          PrintDrag(),
+        ]),
+        Flexible(
+            flex: 10,
+            child: Column(children: [
+              Flexible(flex: 2, child: Main(key: mainKey)),
+              Flexible(flex: 1, child: Output(key: outputKey))
+            ])),
+      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          run(const Main());
+        },
+        child: const Icon(Icons.play_arrow),
+      ),
+    );
   }
 }
