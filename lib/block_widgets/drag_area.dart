@@ -5,13 +5,16 @@ import 'package:blocks/utility.dart';
 
 class DragArea extends StatefulWidget {
   final Set? options;
-  const DragArea({Key? key, this.options}) : super(key: key);
+  final bool textfield;
+  const DragArea({Key? key, this.options, this.textfield = false})
+      : super(key: key);
 
   @override
   State<DragArea> createState() => DragAreaState();
 }
 
 class DragAreaState extends State<DragArea> {
+  final controller = TextEditingController();
   Widget? content;
   Object data = 0;
   @override
@@ -30,18 +33,24 @@ class DragAreaState extends State<DragArea> {
                     decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                  )
+                    child: (widget.textfield)
+                        ? Container(
+                            margin: const EdgeInsets.all(4),
+                            child: TextField(controller: controller))
+                        : null)
                 : Draggable<Object>(
                     data: data,
-                    feedback: content ?? Container(),
-                    child: content ?? Container(),
+                    feedback: content!,
+                    child: content!,
                     childWhenDragging: Container(
                       decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                     ),
-                    onDragEnd: (details) {
-                      content = null;
+                    onDragCompleted: () {
+                      setState(() {
+                        content = null;
+                      });
                     },
                   ));
       },

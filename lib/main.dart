@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:blocks/block_widgets/all.dart';
-import 'keys.dart';
+import 'globals.dart';
 import 'utility.dart';
 
 void main() {
@@ -45,6 +45,7 @@ class HomePage extends StatelessWidget {
           const ForDrag(),
           VarDrag(block: VarBlock(val: Var("var"))),
           PrintDrag(),
+          SetDrag()
         ]),
         Flexible(
             flex: 10,

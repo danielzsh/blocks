@@ -1,6 +1,7 @@
 import 'package:blocks/block_widgets/all.dart';
 import 'package:blocks/block_widgets/block_base.dart';
 import 'package:flutter/material.dart';
+import 'package:blocks/globals.dart';
 
 class Var {
   int value = 0;
@@ -33,7 +34,9 @@ class VarBlock extends StatelessWidget implements Block {
 
 class VarDrag extends StatelessWidget {
   final VarBlock block;
-  const VarDrag({Key? key, required this.block}) : super(key: key);
+  VarDrag({Key? key, required this.block}) : super(key: key) {
+    variables[block.val.name] = 0;
+  }
   @override
   Widget build(BuildContext context) {
     return Draggable<String>(

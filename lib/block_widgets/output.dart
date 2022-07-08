@@ -22,4 +22,10 @@ class OutputState extends State<Output> {
       text = "$text$message\n";
     });
   }
+
+  void clear() {
+    setState(() {
+      text = "Output:\n";
+    });
+  }
 }

@@ -2,7 +2,7 @@ import 'package:blocks/block_widgets/all.dart';
 import 'package:blocks/utility.dart';
 import 'package:flutter/material.dart';
 import 'all.dart';
-import 'package:blocks/keys.dart';
+import 'package:blocks/globals.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox({Key? key}) : super(key: key);
