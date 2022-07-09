@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:blocks/block_widgets/all.dart';
 import 'globals.dart';
@@ -41,30 +42,56 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _varcontroller = TextEditingController();
   var vars = <VarDrag>[VarDrag(name: "var")];
+  String? get _errorText {
+    // at any time, we can get the text from _controller.value.text
+    final text = _varcontroller.value.text;
+    if (text.length == 0) {
+      return "Too short";
+    }
+    if (variables.containsKey(_varcontroller.text)) {
+      return "Variable name in use";
+    }
+    return null;
+  }
+
+  @override
+  void dispose() {
+    _varcontroller.dispose();
+    super.dispose();
+  }
+
   Future<void> _displayTextInputDialog(BuildContext context) async {
     return showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Add variable'),
-            content: TextField(
-              onChanged: (value) {},
-              controller: _varcontroller,
-              decoration: InputDecoration(hintText: "Variable name"),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'OK',
+          return ValueListenableBuilder(
+            valueListenable: _varcontroller,
+            builder: (context, TextEditingValue value, __) {
+              return AlertDialog(
+                title: Text('Add variable'),
+                content: TextField(
+                  onChanged: (text) {
+                    setState(() => text);
+                  },
+                  controller: _varcontroller,
+                  decoration: InputDecoration(
+                      hintText: "Variable name", errorText: _errorText),
                 ),
-                onPressed: () {
-                  setState(() {
-                    vars.add(VarDrag(name: _varcontroller.text));
-                    Navigator.pop(context);
-                  });
-                },
-              ),
-            ],
+                actions: <Widget>[
+                  TextButton(
+                    child: Text(
+                      'OK',
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        vars.add(VarDrag(name: _varcontroller.text));
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                ],
+              );
+            },
           );
         });
   }
@@ -76,20 +103,23 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Blocks'),
       ),
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Column(children: [
-          const ForDrag(),
-          PrintDrag(),
-          SetDrag(),
-          Container(
-            margin: EdgeInsets.all(8),
-            child: ElevatedButton(
-                onPressed: () {
-                  _displayTextInputDialog(context);
-                },
-                child: const Text('Create variable')),
-          ),
-          ...vars
-        ]),
+        Container(
+          width: 150,
+          child: ListView(controller: ScrollController(), children: [
+            const ForDrag(),
+            PrintDrag(),
+            SetDrag(),
+            Container(
+              margin: EdgeInsets.all(8),
+              child: ElevatedButton(
+                  onPressed: () {
+                    _displayTextInputDialog(context);
+                  },
+                  child: const Text('Create variable')),
+            ),
+            ...vars
+          ]),
+        ),
         Flexible(
             flex: 10,
             child: Column(children: [

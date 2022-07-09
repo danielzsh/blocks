@@ -15,13 +15,16 @@ class VarBlock extends StatelessWidget implements Block {
         color: Colors.red,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: Text(
-        name,
-        style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            decoration: TextDecoration.none,
-            fontWeight: FontWeight.normal),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        child: Text(
+          name,
+          style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              decoration: TextDecoration.none,
+              fontWeight: FontWeight.normal),
+        ),
       ),
     );
   }

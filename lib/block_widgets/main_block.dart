@@ -20,7 +20,7 @@ class MainState extends State<Main> implements IStatement {
         return e;
       },
     );
-    return ListView(children: [
+    return ListView(controller: ScrollController(), children: [
       DragTarget<Type>(
         builder: ((context, candidateData, rejectedData) {
           return Container(
