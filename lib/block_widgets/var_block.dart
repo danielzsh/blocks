@@ -3,25 +3,20 @@ import 'package:blocks/block_widgets/block_base.dart';
 import 'package:flutter/material.dart';
 import 'package:blocks/globals.dart';
 
-class Var {
-  int value = 0;
-  final String name;
-  Var(this.name);
-}
-
 class VarBlock extends StatelessWidget implements Block {
-  final Var val;
-  const VarBlock({Key? key, required this.val}) : super(key: key);
+  final String name;
+  const VarBlock({Key? key, required this.name}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
+      constraints: BoxConstraints(minWidth: 50),
       decoration: const BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Text(
-        val.name,
+        name,
         style: const TextStyle(
             color: Colors.white,
             fontSize: 14,
@@ -34,12 +29,16 @@ class VarBlock extends StatelessWidget implements Block {
 
 class VarDrag extends StatelessWidget {
   final VarBlock block;
-  VarDrag({Key? key, required this.block}) : super(key: key) {
-    variables[block.val.name] = 0;
+  final String name;
+  VarDrag({Key? key, required this.name})
+      : block = VarBlock(name: name),
+        super(key: key) {
+    variables[name] = 0;
   }
   @override
   Widget build(BuildContext context) {
-    return Draggable<String>(
-        data: block.val.name, child: block, feedback: block);
+    return Container(
+        margin: EdgeInsets.all(8),
+        child: Draggable<String>(data: name, child: block, feedback: block));
   }
 }

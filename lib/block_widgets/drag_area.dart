@@ -1,5 +1,6 @@
 import 'package:blocks/block_widgets/block_base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'statement_base.dart';
 import 'package:blocks/utility.dart';
 
@@ -35,8 +36,21 @@ class DragAreaState extends State<DragArea> {
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: (widget.textfield)
                         ? Container(
-                            margin: const EdgeInsets.all(4),
-                            child: TextField(controller: controller))
+                            margin: const EdgeInsets.all(8),
+                            child: TextField(
+                              controller: controller,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
+                            ))
                         : null)
                 : Draggable<Object>(
                     data: data,

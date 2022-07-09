@@ -31,8 +31,43 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final _varcontroller = TextEditingController();
+  var vars = <VarDrag>[VarDrag(name: "var")];
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Add variable'),
+            content: TextField(
+              onChanged: (value) {},
+              controller: _varcontroller,
+              decoration: InputDecoration(hintText: "Variable name"),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'OK',
+                ),
+                onPressed: () {
+                  setState(() {
+                    vars.add(VarDrag(name: _varcontroller.text));
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +78,17 @@ class HomePage extends StatelessWidget {
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Column(children: [
           const ForDrag(),
-          VarDrag(block: VarBlock(val: Var("var"))),
           PrintDrag(),
-          SetDrag()
+          SetDrag(),
+          Container(
+            margin: EdgeInsets.all(8),
+            child: ElevatedButton(
+                onPressed: () {
+                  _displayTextInputDialog(context);
+                },
+                child: const Text('Create variable')),
+          ),
+          ...vars
         ]),
         Flexible(
             flex: 10,
