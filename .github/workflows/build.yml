@@ -23,7 +23,7 @@ jobs:
      - run: flutter config --enable-windows-desktop
      - run: flutter build windows
      - run: flutter pub run msix:create
-     - uses: actions/upload_artifact@v2
+     - uses: actions/upload_artifact@v3
        with:
           path: |
             build/windows/runner/Release/blocks.msix
