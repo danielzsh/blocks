@@ -19,9 +19,8 @@ jobs:
    - uses: subosito/flutter-action@v2
      with:
        channel: 'beta'
-   - run: flutter pub add --dev msix
    - run: flutter config --enable-windows-desktop
-   - run: flutter build windows
+   - run: flutter pub get
    - run: printf 'y\n' | flutter pub run msix:create
    - run: ls
    - name: upload build
