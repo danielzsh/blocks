@@ -24,7 +24,8 @@ jobs:
    - run: flutter build windows
    - run: flutter pub run msix:create
    - run: ls
-   - uses: actions/upload_artifact@v3
+   - name: upload build
+     uses: actions/upload-artifact@v3.1.0
      with:
         path: |
           build/windows/runner/Release/blocks.msix
