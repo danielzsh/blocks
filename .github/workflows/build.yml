@@ -1,0 +1,31 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Dart
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+ build:
+   runs-on: windows-latest
+   steps:
+   - uses: actions/checkout@v3
+   - uses: subosito/flutter-action@v2
+     with:
+       channel: 'beta'
+   - run: flutter pub add --dev msix
+   - run: flutter config --enable-windows-desktop
+   - run: flutter build windows
+   - run: printf 'y\n' | flutter pub run msix:create
+   - run: ls
+   - name: upload build
+     uses: actions/upload-artifact@v3.1.0
+     with:
+        path: |
+          build/windows/runner/Release/blocks.msix
