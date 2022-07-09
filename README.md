@@ -1,7 +1,7 @@
 A sad attempt to remake Scratch in flutter.<br>
 See sad new features below:
 ![](images/features.png)
-# Download:
+# Download (Windows only):
 1. Go into "Actions" tab
 ![](images/step1.png)
 2. Select a run that passes (green check) and is on "main" branch

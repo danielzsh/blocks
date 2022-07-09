@@ -20,6 +20,7 @@ jobs:
      with:
        channel: 'beta'
    - run: flutter config --enable-windows-desktop
+   - run: flutter pub get
    - run: printf 'y\n' | flutter pub run msix:create
    - run: ls
    - name: upload build
