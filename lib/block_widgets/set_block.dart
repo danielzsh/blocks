@@ -1,7 +1,4 @@
 import 'package:blocks/block_widgets/all.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'drag_area.dart';
 import 'package:flutter/material.dart';
 

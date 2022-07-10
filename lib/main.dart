@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:blocks/block_widgets/all.dart';
 import 'globals.dart';
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: const HomePage());
+        home: HomePage(key: homePageKey));
   }
 }
 
@@ -36,22 +35,44 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
+  var vars = <String>["my variable"];
   final _varcontroller = TextEditingController();
-  var vars = <VarDrag>[VarDrag(name: "var")];
   String? get _errorText {
-    // at any time, we can get the text from _controller.value.text
     final text = _varcontroller.value.text;
-    if (text.length == 0) {
+    if (text.isEmpty) {
       return "Too short";
     }
+    if (text.length > 25) return "Too long";
     if (variables.containsKey(_varcontroller.text)) {
       return "Variable name in use";
     }
     return null;
+  }
+
+  void deleteVar(String name) {
+    variables.remove(name);
+    setState(() {
+      vars.remove(name);
+    });
+  }
+
+  void editVariable(String name) async {
+    _varcontroller.text = name;
+    await _displayTextInputDialog(context, "Edit variable");
+    variables[_varcontroller.text] = variables[name] ?? 0;
+    variables.remove(name);
+    for (final key in varmap[name]!) {
+      key.currentState!.changeName(_varcontroller.text);
+    }
+    varmap[_varcontroller.text] = varmap[name]!;
+    varmap.remove(name);
+    setState(() {
+      vars.remove(name);
+    });
   }
 
   @override
@@ -60,7 +81,8 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  Future<void> _displayTextInputDialog(BuildContext context) async {
+  Future<void> _displayTextInputDialog(
+      BuildContext context, String text) async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -68,7 +90,7 @@ class _HomePageState extends State<HomePage> {
             valueListenable: _varcontroller,
             builder: (context, TextEditingValue value, __) {
               return AlertDialog(
-                title: Text('Add variable'),
+                title: Text(text),
                 content: TextField(
                   onChanged: (text) {
                     setState(() => text);
@@ -86,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                         ? null
                         : () {
                             setState(() {
-                              vars.add(VarDrag(name: _varcontroller.text));
+                              vars.add(_varcontroller.text);
                               Navigator.pop(context);
                             });
                           },
@@ -106,21 +128,22 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
-          width: 150,
+          width: 300,
           child: ListView(controller: ScrollController(), children: [
-            const ForDrag(),
             PrintDrag(),
             SetDrag(),
             ChangeDrag(),
             Container(
-              margin: EdgeInsets.all(8),
-              child: ElevatedButton(
-                  onPressed: () {
-                    _displayTextInputDialog(context);
-                  },
-                  child: const Text('Create variable')),
-            ),
-            ...vars
+                margin: EdgeInsets.all(8),
+                child: Container(
+                  margin: const EdgeInsets.only(top: 32),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        _displayTextInputDialog(context, "Add variable");
+                      },
+                      child: const Text('Create variable')),
+                )),
+            ...vars.map((name) => VarDrag(name: name))
           ]),
         ),
         Flexible(

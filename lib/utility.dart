@@ -20,7 +20,10 @@ Widget buildFromType(Object type) {
     }
   }
   if (type is String) {
-    return VarBlock(name: type);
+    final key = GlobalKey<VarBlockState>();
+    varmap[type] = [];
+    varmap[type]!.add(key);
+    return VarBlock(name: type, key: key);
   }
   return Text("widget not found$type",
       style: const TextStyle(
@@ -38,7 +41,9 @@ void run(Widget statement) {
   if (statement is Print) {
     if (statement.dragKey.currentState!.content == null) return;
     final val = statement.dragKey.currentState!.content as VarBlock;
-    outputKey.currentState!.print(variables[val.name].toString());
+    outputKey.currentState!.print(
+        variables[(val.key as GlobalKey<VarBlockState>).currentState!.name]
+            .toString());
   }
   if (statement is SetBlock) {
     if (statement.dragkey1.currentState!.content is! VarBlock) return;
