@@ -42,12 +42,14 @@ class _DragContent extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Color.fromARGB(255, 2, 66, 118)),
       padding: const EdgeInsets.all(8),
-      child: const Text("print _____",
-          style: TextStyle(
-              color: Colors.white,
-              decoration: TextDecoration.none,
-              fontWeight: FontWeight.normal,
-              fontSize: 14)),
+      child: const Center(
+        child: Text("print _____",
+            style: TextStyle(
+                color: Colors.white,
+                decoration: TextDecoration.none,
+                fontWeight: FontWeight.normal,
+                fontSize: 14)),
+      ),
     );
   }
 }

@@ -34,12 +34,14 @@ class _DragContent extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: Container(
           margin: const EdgeInsets.all(8),
-          child: const Text('for ___ in ____',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  decoration: TextDecoration.none,
-                  fontWeight: FontWeight.normal))),
+          child: const Center(
+            child: Text('for ___ in ____',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    decoration: TextDecoration.none,
+                    fontWeight: FontWeight.normal)),
+          )),
     );
   }
 }
@@ -101,8 +103,6 @@ class ForState extends State<For> implements IStatement {
                       )));
             },
             onAccept: (statement) {
-              print('setting state');
-              outputKey.currentState!.print("printed");
               setState(() {
                 body.add(buildFromType(statement));
               });

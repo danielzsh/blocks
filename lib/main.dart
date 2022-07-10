@@ -82,12 +82,14 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       'OK',
                     ),
-                    onPressed: () {
-                      setState(() {
-                        vars.add(VarDrag(name: _varcontroller.text));
-                        Navigator.pop(context);
-                      });
-                    },
+                    onPressed: (_errorText != null)
+                        ? null
+                        : () {
+                            setState(() {
+                              vars.add(VarDrag(name: _varcontroller.text));
+                              Navigator.pop(context);
+                            });
+                          },
                   ),
                 ],
               );
@@ -109,6 +111,7 @@ class _HomePageState extends State<HomePage> {
             const ForDrag(),
             PrintDrag(),
             SetDrag(),
+            ChangeDrag(),
             Container(
               margin: EdgeInsets.all(8),
               child: ElevatedButton(

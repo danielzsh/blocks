@@ -5,7 +5,9 @@ import 'package:blocks/globals.dart';
 
 class VarBlock extends StatelessWidget implements Block {
   final String name;
-  const VarBlock({Key? key, required this.name}) : super(key: key);
+  final bool center;
+  const VarBlock({Key? key, required this.name, this.center = false})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,6 +19,7 @@ class VarBlock extends StatelessWidget implements Block {
       ),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 4),
+        alignment: (center) ? Alignment.center : null,
         child: Text(
           name,
           style: const TextStyle(
@@ -34,7 +37,10 @@ class VarDrag extends StatelessWidget {
   final VarBlock block;
   final String name;
   VarDrag({Key? key, required this.name})
-      : block = VarBlock(name: name),
+      : block = VarBlock(
+          name: name,
+          center: true,
+        ),
         super(key: key) {
     variables[name] = 0;
   }

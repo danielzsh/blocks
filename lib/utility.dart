@@ -15,12 +15,15 @@ Widget buildFromType(Object type) {
     if (type == SetBlock) {
       return SetBlock();
     }
+    if (type == ChangeBlock) {
+      return ChangeBlock(key: GlobalKey<ChangeBlockState>());
+    }
   }
   if (type is String) {
     return VarBlock(name: type);
   }
   return Text("widget not found$type",
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.white,
       ));
 }
@@ -47,6 +50,22 @@ void run(Widget statement) {
           int.tryParse(statement.dragkey2.currentState!.controller.text) ?? 0;
     } else if (rhs is VarBlock) {
       variables[lhs.name] = variables[rhs.name] ?? 0;
+    }
+  }
+  if (statement is ChangeBlock) {
+    final state = (statement.key as GlobalKey<ChangeBlockState>).currentState;
+    if (state!.drag1.currentState!.content == null) return;
+    final lhs = state.drag1.currentState!.content as VarBlock;
+    final rhs = state.drag2.currentState!;
+    if (rhs.content == null && rhs.widget.textfield == true) {
+      final diff = int.tryParse(rhs.controller.text) ?? 0;
+      variables[lhs.name] = variables[lhs.name]! +
+          ((state.changeoption == "increase") ? diff : -diff);
+    }
+    if (rhs.content is VarBlock) {
+      final diff = variables[(rhs.content as VarBlock).name];
+      variables[lhs.name] = variables[lhs.name]! +
+          ((state.changeoption == "increase") ? diff : -diff!)!;
     }
   }
 }
