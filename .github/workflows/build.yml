@@ -1,8 +1,5 @@
 name: Flutter Web
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -19,14 +16,4 @@ jobs:
           flutter-version: '2.12.x'
           channel: 'any'
       - run: flutter build web --base-href="/blocks/"
-      - run: |
-          cd build/web
-          git init
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git status
-          git remote add origin https://${{secrets.commit_secret}}@github.com/satanic-santa/blocks.git
-          git checkout -b gh-pages
-          git add --all
-          git commit -m "update"
-          git push origin gh-pages -f
+
