@@ -1,27 +1,29 @@
+import 'package:blocks/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:blocks/utility.dart';
 import 'all.dart';
 
 class _DragBlockWrapper extends StatefulWidget {
   final Widget child;
-  const _DragBlockWrapper({Key? key, required this.child}) : super(key: key);
+  final int ind;
+  const _DragBlockWrapper({Key? key, required this.child, required this.ind})
+      : super(key: key);
 
   @override
   State<_DragBlockWrapper> createState() => __DragBlockWrapperState();
 }
 
 class __DragBlockWrapperState extends State<_DragBlockWrapper> {
-  bool dropped = false;
   @override
   Widget build(BuildContext context) {
     return Draggable(
-      child: dropped ? Container() : widget.child,
+      child: widget.child,
       feedback: widget.child,
       childWhenDragging: Container(),
       data: widget.child,
       onDragCompleted: () {
         setState(() {
-          dropped = true;
+          mainKey.currentState!.delete(widget.ind);
         });
       },
     );
@@ -35,13 +37,23 @@ class Main extends StatefulWidget {
 }
 
 class MainState extends State<Main> {
-  @override
   var body = <Widget>[];
+
+  void delete(int ind) {
+    print(ind);
+    print(body);
+    setState(() {
+      body.removeAt(ind);
+    });
+    print(body);
+  }
+
   @override
   Widget build(BuildContext context) {
-    var children = body.map(
+    print("build" + body.toString());
+    var children = body.asMap().entries.map(
       (e) {
-        return _DragBlockWrapper(child: e);
+        return _DragBlockWrapper(child: e.value, ind: e.key);
       },
     );
     return ListView(controller: ScrollController(), children: [
@@ -66,15 +78,15 @@ class MainState extends State<Main> {
                   )));
         }),
         onAccept: (statement) {
-          print(statement.runtimeType);
-          setState(() {
-            if (statement is Type)
+          if (statement is Type) {
+            setState(() {
               body.add(buildFromType(statement));
-            else if (statement is Widget) {
-              print('worked');
+            });
+          } else if (statement is Widget) {
+            setState(() {
               body.add(statement);
-            }
-          });
+            });
+          }
         },
       ),
       ...children,
