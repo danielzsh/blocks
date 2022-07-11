@@ -21,7 +21,7 @@ Widget buildFromType(Object type) {
   }
   if (type is String) {
     final key = GlobalKey<VarBlockState>();
-    varmap[type] = [];
+    if (varmap[type] == null) varmap[type] = [];
     varmap[type]!.add(key);
     return VarBlock(name: type, key: key);
   }
