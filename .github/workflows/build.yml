@@ -11,12 +11,12 @@ jobs:
     name: Build Web
     env:
       my_secret: ${{secrets.commit_secret}}
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2.4.0
         with:
-          flutter-version: '2.17.3'
+          flutter-version: '2.17.x'
       - run: flutter build web
       - run: |
           cd build/web
