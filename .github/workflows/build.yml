@@ -18,7 +18,7 @@ jobs:
         with:
           flutter-version: '2.12.x'
           channel: 'any'
-      - run: flutter build web
+      - run: flutter build web --base-href="/blocks/"
       - run: |
           cd build/web
           git init
