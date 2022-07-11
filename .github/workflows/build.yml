@@ -1,22 +1,19 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Deploy to Github Pages
-
+name: Flutter Web
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
-
+    branches:
+      - main
 jobs:
- deploy:
-   runs-on: windows-latest
-   steps:
-   - name: Deploy
-     uses: peaceiris/actions-gh-pages@v3
-     with:
-       github_token: ${{ secrets.GITHUB_TOKEN }}
-       publish_dir: ./build/web
+  build:
+    name: Build Web
+    env:
+      my_secret: ${{secrets.commit_secret}}
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.4.0
+        with:
+          flutter-version: '2.12.x'
+          channel: 'any'
+      - run: flutter build web --base-href="/blocks/"
+
