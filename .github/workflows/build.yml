@@ -16,4 +16,5 @@ jobs:
    runs-on: windows-latest
    steps:
    - uses: actions/checkout@v3
+   - run: git pull origin gh-pages
    - run: git subtree push --prefix build/web origin gh-pages
