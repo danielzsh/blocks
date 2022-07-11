@@ -20,7 +20,7 @@ class MainState extends State<Main> implements IStatement {
         return e;
       },
     );
-    return ListView(children: [
+    return ListView(controller: ScrollController(), children: [
       DragTarget<Type>(
         builder: ((context, candidateData, rejectedData) {
           return Container(
@@ -35,6 +35,7 @@ class MainState extends State<Main> implements IStatement {
               margin: const EdgeInsets.all(8),
               child: Container(
                   margin: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
                   child: const Text(
                     'on start: ',
                     style: TextStyle(color: Colors.white),

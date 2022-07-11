@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Dart
+name: Deploy to Github Pages
 
 on:
   push:
@@ -12,19 +12,14 @@ on:
     branches: [ "main" ]
 
 jobs:
- build:
+ deploy:
    runs-on: windows-latest
    steps:
    - uses: actions/checkout@v3
-   - uses: subosito/flutter-action@v2
-     with:
-       channel: 'beta'
-   - run: flutter config --enable-windows-desktop
-   - run: flutter pub get
-   - run: printf 'y\n' | flutter pub run msix:create
-   - run: ls
-   - name: upload build
-     uses: actions/upload-artifact@v3.1.0
-     with:
-        path: |
-          build/windows/runner/Release/blocks.msix
+   - run: |
+      git config user.name github-actions
+      git config user.email github-actions@github.com
+      cd build/web
+      git branch gh-pages
+      git pull origin gh-pages --allow-unrelated-histories
+      git push origin gh-pages

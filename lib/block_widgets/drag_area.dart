@@ -70,13 +70,11 @@ class DragAreaState extends State<DragArea> {
       },
       onAccept: (statement) {
         setState(() {
-          print((statement is Type) ? statement : statement.runtimeType);
           if (widget.options == null ||
               widget.options!.contains(
                   ((statement is Type) ? statement : statement.runtimeType))) {
             content = buildFromType(statement);
             data = statement;
-            print(data);
           }
         });
       },

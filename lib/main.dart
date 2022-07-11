@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: const HomePage());
+        home: HomePage(key: homePageKey));
   }
 }
 
@@ -35,36 +35,87 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
+  var vars = <String>["my variable"];
   final _varcontroller = TextEditingController();
-  var vars = <VarDrag>[VarDrag(name: "var")];
-  Future<void> _displayTextInputDialog(BuildContext context) async {
+  String? get _errorText {
+    final text = _varcontroller.value.text;
+    if (text.isEmpty) {
+      return "Too short";
+    }
+    if (text.length > 25) return "Too long";
+    if (variables.containsKey(_varcontroller.text)) {
+      return "Variable name in use";
+    }
+    return null;
+  }
+
+  void deleteVar(String name) {
+    variables.remove(name);
+    setState(() {
+      vars.remove(name);
+    });
+  }
+
+  void editVariable(String name) async {
+    _varcontroller.text = name;
+    await _displayTextInputDialog(context, "Edit variable");
+    variables[_varcontroller.text] = variables[name] ?? 0;
+    variables.remove(name);
+    for (final key in varmap[name]!) {
+      key.currentState!.changeName(_varcontroller.text);
+    }
+    varmap[_varcontroller.text] = varmap[name]!;
+    varmap.remove(name);
+    setState(() {
+      vars.remove(name);
+    });
+  }
+
+  @override
+  void dispose() {
+    _varcontroller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _displayTextInputDialog(
+      BuildContext context, String text) async {
     return showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Add variable'),
-            content: TextField(
-              onChanged: (value) {},
-              controller: _varcontroller,
-              decoration: InputDecoration(hintText: "Variable name"),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'OK',
+          return ValueListenableBuilder(
+            valueListenable: _varcontroller,
+            builder: (context, TextEditingValue value, __) {
+              return AlertDialog(
+                title: Text(text),
+                content: TextField(
+                  onChanged: (text) {
+                    setState(() => text);
+                  },
+                  controller: _varcontroller,
+                  decoration: InputDecoration(
+                      hintText: "Variable name", errorText: _errorText),
                 ),
-                onPressed: () {
-                  setState(() {
-                    vars.add(VarDrag(name: _varcontroller.text));
-                    Navigator.pop(context);
-                  });
-                },
-              ),
-            ],
+                actions: <Widget>[
+                  TextButton(
+                    child: Text(
+                      'OK',
+                    ),
+                    onPressed: (_errorText != null)
+                        ? null
+                        : () {
+                            setState(() {
+                              vars.add(_varcontroller.text);
+                              Navigator.pop(context);
+                            });
+                          },
+                  ),
+                ],
+              );
+            },
           );
         });
   }
@@ -76,20 +127,25 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Blocks'),
       ),
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Column(children: [
-          const ForDrag(),
-          PrintDrag(),
-          SetDrag(),
-          Container(
-            margin: EdgeInsets.all(8),
-            child: ElevatedButton(
-                onPressed: () {
-                  _displayTextInputDialog(context);
-                },
-                child: const Text('Create variable')),
-          ),
-          ...vars
-        ]),
+        Container(
+          width: 300,
+          child: ListView(controller: ScrollController(), children: [
+            PrintDrag(),
+            SetDrag(),
+            ChangeDrag(),
+            Container(
+                margin: EdgeInsets.all(8),
+                child: Container(
+                  margin: const EdgeInsets.only(top: 32),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        _displayTextInputDialog(context, "Add variable");
+                      },
+                      child: const Text('Create variable')),
+                )),
+            ...vars.map((name) => VarDrag(name: name))
+          ]),
+        ),
         Flexible(
             flex: 10,
             child: Column(children: [

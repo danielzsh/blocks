@@ -1,7 +1,4 @@
 import 'package:blocks/block_widgets/all.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'drag_area.dart';
 import 'package:flutter/material.dart';
 
@@ -18,12 +15,14 @@ class _DragContent extends StatelessWidget {
         color: Colors.orange,
       ),
       padding: const EdgeInsets.all(8),
-      child: const Text("set ____ to ____",
-          style: TextStyle(
-              color: Colors.white,
-              decoration: TextDecoration.none,
-              fontWeight: FontWeight.normal,
-              fontSize: 14)),
+      child: const Center(
+        child: Text("set ____ to ____",
+            style: TextStyle(
+                color: Colors.white,
+                decoration: TextDecoration.none,
+                fontWeight: FontWeight.normal,
+                fontSize: 14)),
+      ),
     );
   }
 }

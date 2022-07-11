@@ -34,12 +34,14 @@ class _DragContent extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: Container(
           margin: const EdgeInsets.all(8),
-          child: const Text('for ___ in ____',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  decoration: TextDecoration.none,
-                  fontWeight: FontWeight.normal))),
+          child: const Center(
+            child: Text('for ___ in ____',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    decoration: TextDecoration.none,
+                    fontWeight: FontWeight.normal)),
+          )),
     );
   }
 }
@@ -70,41 +72,44 @@ class ForState extends State<For> implements IStatement {
     var children = body.map((e) {
       return Container(margin: const EdgeInsets.only(left: 16), child: e);
     });
-    return ListView(shrinkWrap: true, children: [
-      DragTarget<Type>(
-        builder: (context, candidateData, rejectedData) {
-          return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                      color: candidateData.isNotEmpty
-                          ? Colors.red
-                          : Colors.black)),
-              child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      const Text('for', style: TextStyle(color: Colors.white)),
-                      Expanded(child: drag1),
-                      const Text('in', style: TextStyle(color: Colors.white)),
-                      Expanded(child: drag2),
-                    ],
-                  )));
-        },
-        onAccept: (statement) {
-          print('setting state');
-          outputKey.currentState!.print("printed");
-          setState(() {
-            body.add(buildFromType(statement));
-          });
-        },
-      ),
-      ...children
-    ]);
+    return ListView(
+        shrinkWrap: true,
+        controller: ScrollController(),
+        children: [
+          DragTarget<Type>(
+            builder: (context, candidateData, rejectedData) {
+              return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                          color: candidateData.isNotEmpty
+                              ? Colors.red
+                              : Colors.black)),
+                  child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          const Text('for',
+                              style: TextStyle(color: Colors.white)),
+                          Expanded(child: drag1),
+                          const Text('in',
+                              style: TextStyle(color: Colors.white)),
+                          Expanded(child: drag2),
+                        ],
+                      )));
+            },
+            onAccept: (statement) {
+              setState(() {
+                body.add(buildFromType(statement));
+              });
+            },
+          ),
+          ...children
+        ]);
   }
 
   @override
