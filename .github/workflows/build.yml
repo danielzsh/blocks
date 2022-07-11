@@ -16,5 +16,8 @@ jobs:
    runs-on: windows-latest
    steps:
    - uses: actions/checkout@v3
-   - run: git pull origin gh-pages --allow-unrelated-histories
-   - run: git subtree push --prefix build/web origin gh-pages
+   - run: |
+      git config user.name github-actions
+      git config user.email github-actions@github.com
+      git pull origin gh-pages --allow-unrelated-histories
+      git subtree push --prefix build/web origin gh-pages
