@@ -154,7 +154,7 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              DragTarget<DragBlockWrapper>(
+              DragTarget<Object>(
                 builder: ((context, candidateData, rejectedData) {
                   return Tooltip(
                     message: "Drag statement here to delete",
@@ -167,7 +167,9 @@ class HomePageState extends State<HomePage> {
                   );
                 }),
                 onAccept: (statement) {
-                  // mainKey.currentState!.delete(statement.ind);
+                  if (statement is DragBlockWrapper) {
+                    mainKey.currentState!.delete(statement.ind);
+                  }
                 },
               )
             ],
