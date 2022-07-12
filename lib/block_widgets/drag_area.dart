@@ -66,14 +66,15 @@ class DragAreaState extends State<DragArea> {
                     },
                   ));
       },
+      onWillAccept: (statement) {
+        return (widget.options == null ||
+            widget.options!.contains(
+                ((statement is Type) ? statement : statement.runtimeType)));
+      },
       onAccept: (statement) {
         setState(() {
-          if (widget.options == null ||
-              widget.options!.contains(
-                  ((statement is Type) ? statement : statement.runtimeType))) {
-            content = buildFromType(statement);
-            data = statement;
-          }
+          content = buildFromType(statement);
+          data = statement;
         });
       },
     );

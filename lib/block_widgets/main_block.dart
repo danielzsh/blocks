@@ -27,11 +27,13 @@ class _DragBlockWrapperState extends State<DragBlockWrapper> {
                 feedback: widget.child,
                 childWhenDragging: Container(),
                 data: widget,
-                onDragCompleted: () {
-                  setState(() {
-                    mainKey.currentState!.delete(widget.ind);
+                /* onDragCompleted: () {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    setState(() {
+                      mainKey.currentState!.delete(widget.ind);
+                    });
                   });
-                },
+                }, */
               ),
             ),
             candidateData.isNotEmpty
@@ -46,15 +48,17 @@ class _DragBlockWrapperState extends State<DragBlockWrapper> {
           ],
         );
       },
+      onWillAccept: (statement) {
+        return (statement is Type || statement is DragBlockWrapper);
+      },
       onAccept: (statement) {
         if (statement is Type) {
           setState(() {
             mainKey.currentState!.add(buildFromType(statement), widget.ind);
           });
-        } else if (statement is Widget) {
-          setState(() {
-            mainKey.currentState!.add(statement, widget.ind);
-          });
+        } else if (statement is DragBlockWrapper) {
+          mainKey.currentState!.delete(statement.ind);
+          mainKey.currentState!.add(statement, widget.ind);
         }
       },
     );

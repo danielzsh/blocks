@@ -77,10 +77,8 @@ class ChangeBlockState extends State<ChangeBlock> {
         )),
         const Text("by"),
         Expanded(
-            child: DragArea(
-          key: drag2,
-          textfield: true,
-        ))
+            child:
+                DragArea(key: drag2, textfield: true, options: const {String}))
       ],
     );
   }
