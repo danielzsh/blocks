@@ -87,6 +87,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-msix_config:
-  display_name: blocks
-  msix_version: 1.0.3.0
