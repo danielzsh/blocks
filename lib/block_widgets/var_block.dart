@@ -1,4 +1,4 @@
-import 'package:blocks/block_widgets/block_base.dart';
+import 'package:blocks/block_widgets/block_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:blocks/globals.dart';
 
@@ -21,7 +21,7 @@ class VarBlockState extends State<VarBlock> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      constraints: BoxConstraints(minWidth: 50, minHeight: 40),
+      constraints: BoxConstraints(minWidth: 200, minHeight: 40),
       decoration: const BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -48,7 +48,7 @@ class VarBlockState extends State<VarBlock> {
   }
 }
 
-class _DragContent extends StatelessWidget implements Block {
+class _DragContent extends StatelessWidget {
   final String name;
   const _DragContent({Key? key, required this.name}) : super(key: key);
   @override

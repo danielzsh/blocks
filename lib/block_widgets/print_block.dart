@@ -1,31 +1,28 @@
 import 'package:blocks/block_widgets/all.dart';
 import 'package:flutter/material.dart';
+import 'block_wrapper.dart';
 
 class Print extends StatelessWidget {
   final dragKey = GlobalKey<DragAreaState>();
   late DragArea drag1;
   Print({Key? key}) : super(key: key) {
-    drag1 = DragArea(key: dragKey);
+    drag1 = DragArea(
+      key: dragKey,
+      options: {String},
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      height: 60,
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Color.fromARGB(255, 2, 66, 118)),
-      padding: const EdgeInsets.all(4),
-      child: Row(
-        children: [
-          const Text(
-            "print",
-            style: TextStyle(color: Colors.white),
-          ),
-          Expanded(child: drag1)
-        ],
-      ),
+    return Block(
+      color: Color.fromARGB(255, 2, 66, 118),
+      children: [
+        const Text(
+          "print",
+          style: TextStyle(color: Colors.white),
+        ),
+        Expanded(child: drag1)
+      ],
     );
   }
 }
@@ -38,6 +35,7 @@ class _DragContent extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(8),
       height: 40,
+      width: 200,
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Color.fromARGB(255, 2, 66, 118)),

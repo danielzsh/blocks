@@ -1,6 +1,65 @@
+import 'package:blocks/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:blocks/utility.dart';
 import 'all.dart';
+
+class DragBlockWrapper extends StatefulWidget {
+  final Widget child;
+  final int ind;
+  const DragBlockWrapper({Key? key, required this.child, required this.ind})
+      : super(key: key);
+
+  @override
+  State<DragBlockWrapper> createState() => _DragBlockWrapperState();
+}
+
+class _DragBlockWrapperState extends State<DragBlockWrapper> {
+  @override
+  Widget build(BuildContext context) {
+    return DragTarget(
+      builder: (context, candidateData, rejectedData) {
+        return Column(
+          children: [
+            Container(
+              width: double.infinity,
+              child: Draggable<DragBlockWrapper>(
+                child: widget.child,
+                feedback: widget.child,
+                childWhenDragging: Container(),
+                data: widget,
+                onDragCompleted: () {
+                  setState(() {
+                    mainKey.currentState!.delete(widget.ind);
+                  });
+                },
+              ),
+            ),
+            candidateData.isNotEmpty
+                ? Container(
+                    height: 50,
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                  )
+                : Container(),
+          ],
+        );
+      },
+      onAccept: (statement) {
+        if (statement is Type) {
+          setState(() {
+            mainKey.currentState!.add(buildFromType(statement), widget.ind);
+          });
+        } else if (statement is Widget) {
+          setState(() {
+            mainKey.currentState!.add(statement, widget.ind);
+          });
+        }
+      },
+    );
+  }
+}
 
 class Main extends StatefulWidget {
   const Main({Key? key}) : super(key: key);
@@ -8,43 +67,74 @@ class Main extends StatefulWidget {
   State<Main> createState() => MainState();
 }
 
-class MainState extends State<Main> implements IStatement {
-  @override
+class MainState extends State<Main> {
   var body = <Widget>[];
-  @override
-  void run() {}
+
+  void delete(int ind) {
+    print(ind);
+    print(body);
+    setState(() {
+      body.removeAt(ind);
+    });
+    print(body);
+  }
+
+  void add(Widget statement, int ind) {
+    setState(() {
+      body.insert(ind + 1, statement);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var children = body.map(
+    print("build" + body.toString());
+    var children = body.asMap().entries.map(
       (e) {
-        return e;
+        return DragBlockWrapper(child: e.value, ind: e.key);
       },
     );
     return ListView(controller: ScrollController(), children: [
-      DragTarget<Type>(
+      DragTarget<Object>(
         builder: ((context, candidateData, rejectedData) {
-          return Container(
-              decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                      color: candidateData.isNotEmpty
-                          ? Colors.red
-                          : Colors.black)),
-              height: 40,
-              margin: const EdgeInsets.all(8),
-              child: Container(
-                  margin: const EdgeInsets.all(8),
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'on start: ',
-                    style: TextStyle(color: Colors.white),
-                  )));
+          return Column(
+            children: [
+              Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
+                  height: 40,
+                  margin: const EdgeInsets.all(4),
+                  child: Container(
+                      margin: const EdgeInsets.all(8),
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        'on start: ',
+                        style: TextStyle(color: Colors.white),
+                      ))),
+              candidateData.isNotEmpty
+                  ? Container(
+                      height: 50,
+                      margin: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                    )
+                  : Container(),
+            ],
+          );
         }),
         onAccept: (statement) {
-          setState(() {
-            body.add(buildFromType(statement));
-          });
+          if (statement is Type) {
+            setState(() {
+              add(buildFromType(statement), -1);
+            });
+          } else if (statement is DragBlockWrapper) {
+            setState(() {
+              add(statement.child, -1);
+            });
+          }
         },
       ),
       ...children,

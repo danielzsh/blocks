@@ -1,7 +1,5 @@
-import 'package:blocks/block_widgets/block_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'statement_base.dart';
 import 'package:blocks/utility.dart';
 
 class DragArea extends StatefulWidget {

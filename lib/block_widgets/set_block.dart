@@ -1,4 +1,5 @@
 import 'package:blocks/block_widgets/all.dart';
+import 'package:blocks/block_widgets/block_wrapper.dart';
 import 'drag_area.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class _DragContent extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(8),
       height: 40,
+      width: 200,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
         color: Colors.orange,
@@ -44,26 +46,16 @@ class SetBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.all(8),
-        height: 50,
-        decoration: BoxDecoration(
-            color: Colors.orange,
-            borderRadius: const BorderRadius.all(Radius.circular(10))),
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const Text('set', style: TextStyle(color: Colors.white)),
-                Expanded(child: DragArea(key: dragkey1, options: {String})),
-                const Text('to', style: TextStyle(color: Colors.white)),
-                Expanded(
-                    child: DragArea(
-                  key: dragkey2,
-                  textfield: true,
-                )),
-              ],
-            )));
+    return Block(children: <Widget>[
+      const Text('set', style: TextStyle(color: Colors.white)),
+      Expanded(child: DragArea(key: dragkey1, options: {String})),
+      const Text('to', style: TextStyle(color: Colors.white)),
+      Expanded(
+          child: DragArea(
+        key: dragkey2,
+        textfield: true,
+        options: {VarBlock},
+      )),
+    ], color: Colors.orange);
   }
 }
