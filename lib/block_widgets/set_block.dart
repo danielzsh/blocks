@@ -54,6 +54,7 @@ class SetBlock extends StatelessWidget {
           child: DragArea(
         key: dragkey2,
         textfield: true,
+        options: {VarBlock},
       )),
     ], color: Colors.orange);
   }

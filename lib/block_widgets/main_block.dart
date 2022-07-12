@@ -16,15 +16,46 @@ class _DragBlockWrapper extends StatefulWidget {
 class __DragBlockWrapperState extends State<_DragBlockWrapper> {
   @override
   Widget build(BuildContext context) {
-    return Draggable(
-      child: widget.child,
-      feedback: widget.child,
-      childWhenDragging: Container(),
-      data: widget.child,
-      onDragCompleted: () {
-        setState(() {
-          mainKey.currentState!.delete(widget.ind);
-        });
+    return DragTarget(
+      builder: (context, candidateData, rejectedData) {
+        return Column(
+          children: [
+            Container(
+              width: double.infinity,
+              child: Draggable(
+                child: widget.child,
+                feedback: widget.child,
+                childWhenDragging: Container(),
+                data: widget.child,
+                onDragCompleted: () {
+                  setState(() {
+                    mainKey.currentState!.delete(widget.ind);
+                  });
+                },
+              ),
+            ),
+            candidateData.isNotEmpty
+                ? Container(
+                    height: 50,
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                  )
+                : Container(),
+          ],
+        );
+      },
+      onAccept: (statement) {
+        if (statement is Type) {
+          setState(() {
+            mainKey.currentState!.add(buildFromType(statement), widget.ind);
+          });
+        } else if (statement is Widget) {
+          setState(() {
+            mainKey.currentState!.add(statement, widget.ind);
+          });
+        }
       },
     );
   }
@@ -46,6 +77,12 @@ class MainState extends State<Main> {
       body.removeAt(ind);
     });
     print(body);
+  }
+
+  void add(Widget statement, int ind) {
+    setState(() {
+      body.insert(ind + 1, statement);
+    });
   }
 
   @override

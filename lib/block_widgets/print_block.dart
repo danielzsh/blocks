@@ -6,7 +6,10 @@ class Print extends StatelessWidget {
   final dragKey = GlobalKey<DragAreaState>();
   late DragArea drag1;
   Print({Key? key}) : super(key: key) {
-    drag1 = DragArea(key: dragKey);
+    drag1 = DragArea(
+      key: dragKey,
+      options: {String},
+    );
   }
 
   @override
