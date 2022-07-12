@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:blocks/utility.dart';
 import 'all.dart';
 
-class _DragBlockWrapper extends StatefulWidget {
+class DragBlockWrapper extends StatefulWidget {
   final Widget child;
   final int ind;
-  const _DragBlockWrapper({Key? key, required this.child, required this.ind})
+  const DragBlockWrapper({Key? key, required this.child, required this.ind})
       : super(key: key);
 
   @override
-  State<_DragBlockWrapper> createState() => __DragBlockWrapperState();
+  State<DragBlockWrapper> createState() => _DragBlockWrapperState();
 }
 
-class __DragBlockWrapperState extends State<_DragBlockWrapper> {
+class _DragBlockWrapperState extends State<DragBlockWrapper> {
   @override
   Widget build(BuildContext context) {
     return DragTarget(
@@ -22,11 +22,11 @@ class __DragBlockWrapperState extends State<_DragBlockWrapper> {
           children: [
             Container(
               width: double.infinity,
-              child: Draggable(
+              child: Draggable<DragBlockWrapper>(
                 child: widget.child,
                 feedback: widget.child,
                 childWhenDragging: Container(),
-                data: widget.child,
+                data: widget,
                 onDragCompleted: () {
                   setState(() {
                     mainKey.currentState!.delete(widget.ind);
@@ -90,7 +90,7 @@ class MainState extends State<Main> {
     print("build" + body.toString());
     var children = body.asMap().entries.map(
       (e) {
-        return _DragBlockWrapper(child: e.value, ind: e.key);
+        return DragBlockWrapper(child: e.value, ind: e.key);
       },
     );
     return ListView(controller: ScrollController(), children: [
@@ -101,12 +101,9 @@ class MainState extends State<Main> {
               Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(
-                          color: candidateData.isNotEmpty
-                              ? Colors.red
-                              : Colors.black)),
+                    color: Colors.grey,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
                   height: 40,
                   margin: const EdgeInsets.all(4),
                   child: Container(
@@ -133,9 +130,9 @@ class MainState extends State<Main> {
             setState(() {
               add(buildFromType(statement), -1);
             });
-          } else if (statement is Widget) {
+          } else if (statement is DragBlockWrapper) {
             setState(() {
-              add(statement, -1);
+              add(statement.child, -1);
             });
           }
         },

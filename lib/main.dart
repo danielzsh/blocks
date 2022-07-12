@@ -129,22 +129,45 @@ class HomePageState extends State<HomePage> {
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
           width: 300,
-          child: ListView(controller: ScrollController(), children: [
-            PrintDrag(),
-            SetDrag(),
-            ChangeDrag(),
-            Container(
-                margin: EdgeInsets.all(8),
-                child: Container(
-                  margin: const EdgeInsets.only(top: 32),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        _displayTextInputDialog(context, "Add variable");
-                      },
-                      child: const Text('Create variable')),
-                )),
-            ...vars.map((name) => VarDrag(name: name))
-          ]),
+          // height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  controller: ScrollController(),
+                  children: [
+                    PrintDrag(),
+                    SetDrag(),
+                    ChangeDrag(),
+                    Container(
+                        margin: EdgeInsets.all(8),
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 32),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                _displayTextInputDialog(
+                                    context, "Add variable");
+                              },
+                              child: const Text('Create variable')),
+                        )),
+                    ...vars.map((name) => VarDrag(name: name)),
+                  ],
+                ),
+              ),
+              DragTarget<DragBlockWrapper>(
+                builder: ((context, candidateData, rejectedData) {
+                  return Icon(
+                    Icons.delete,
+                    color: candidateData.isNotEmpty ? Colors.red : Colors.black,
+                    size: 100,
+                  );
+                }),
+                onAccept: (statement) {
+                  // mainKey.currentState!.delete(statement.ind);
+                },
+              )
+            ],
+          ),
         ),
         Flexible(
             flex: 10,
@@ -159,6 +182,29 @@ class HomePageState extends State<HomePage> {
         },
         child: const Icon(Icons.play_arrow),
       ),
+      /* bottomNavigationBar: BottomAppBar(
+          color: Colors.transparent,
+          elevation: 0,
+          child: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 100),
+                child: DragTarget<DragBlockWrapper>(
+                  builder: ((context, candidateData, rejectedData) {
+                    return Icon(
+                      Icons.delete,
+                      color:
+                          candidateData.isNotEmpty ? Colors.red : Colors.black,
+                      size: 100,
+                    );
+                  }),
+                  onAccept: (statement) {
+                    // mainKey.currentState!.delete(statement.ind);
+                  },
+                ),
+              ),
+            ],
+          )), */
     );
   }
 }
