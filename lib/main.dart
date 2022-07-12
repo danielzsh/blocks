@@ -156,10 +156,14 @@ class HomePageState extends State<HomePage> {
               ),
               DragTarget<DragBlockWrapper>(
                 builder: ((context, candidateData, rejectedData) {
-                  return Icon(
-                    Icons.delete,
-                    color: candidateData.isNotEmpty ? Colors.red : Colors.black,
-                    size: 100,
+                  return Tooltip(
+                    message: "Drag statement here to delete",
+                    child: Icon(
+                      Icons.delete,
+                      color:
+                          candidateData.isNotEmpty ? Colors.red : Colors.black,
+                      size: 100,
+                    ),
                   );
                 }),
                 onAccept: (statement) {
