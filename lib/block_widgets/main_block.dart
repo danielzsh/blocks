@@ -96,32 +96,46 @@ class MainState extends State<Main> {
     return ListView(controller: ScrollController(), children: [
       DragTarget<Object>(
         builder: ((context, candidateData, rejectedData) {
-          return Container(
-              decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                      color: candidateData.isNotEmpty
-                          ? Colors.red
-                          : Colors.black)),
-              height: 40,
-              margin: const EdgeInsets.all(4),
-              child: Container(
-                  margin: const EdgeInsets.all(8),
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'on start: ',
-                    style: TextStyle(color: Colors.white),
-                  )));
+          return Column(
+            children: [
+              Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                          color: candidateData.isNotEmpty
+                              ? Colors.red
+                              : Colors.black)),
+                  height: 40,
+                  margin: const EdgeInsets.all(4),
+                  child: Container(
+                      margin: const EdgeInsets.all(8),
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        'on start: ',
+                        style: TextStyle(color: Colors.white),
+                      ))),
+              candidateData.isNotEmpty
+                  ? Container(
+                      height: 50,
+                      margin: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                    )
+                  : Container(),
+            ],
+          );
         }),
         onAccept: (statement) {
           if (statement is Type) {
             setState(() {
-              body.add(buildFromType(statement));
+              add(buildFromType(statement), -1);
             });
           } else if (statement is Widget) {
             setState(() {
-              body.add(statement);
+              add(statement, -1);
             });
           }
         },
