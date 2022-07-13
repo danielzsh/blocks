@@ -54,11 +54,12 @@ class _DragBlockWrapperState extends State<DragBlockWrapper> {
       onAccept: (statement) {
         if (statement is Type) {
           setState(() {
-            mainKey.currentState!.add(buildFromType(statement), widget.ind);
+            mainKey.currentState!.add(buildFromType(statement), widget.ind + 1);
           });
         } else if (statement is DragBlockWrapper) {
           mainKey.currentState!.delete(statement.ind);
-          mainKey.currentState!.add(statement, widget.ind);
+          mainKey.currentState!.add(statement.child,
+              (statement.ind <= widget.ind) ? widget.ind : widget.ind + 1);
         }
       },
     );
@@ -85,7 +86,11 @@ class MainState extends State<Main> {
 
   void add(Widget statement, int ind) {
     setState(() {
-      body.insert(ind + 1, statement);
+      if (ind >= body.length) {
+        body.add(statement);
+      } else {
+        body.insert(ind, statement);
+      }
     });
   }
 
@@ -129,14 +134,18 @@ class MainState extends State<Main> {
             ],
           );
         }),
+        onWillAccept: (statement) {
+          return (statement is Type || statement is DragBlockWrapper);
+        },
         onAccept: (statement) {
           if (statement is Type) {
             setState(() {
-              add(buildFromType(statement), -1);
+              add(buildFromType(statement), 0);
             });
           } else if (statement is DragBlockWrapper) {
             setState(() {
-              add(statement.child, -1);
+              delete(statement.ind);
+              add(statement.child, 0);
             });
           }
         },
