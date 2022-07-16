@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:blocks/block_widgets/all.dart';
 import 'globals.dart';
 import 'utility.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           primarySwatch: Colors.blue,
+          fontFamily: GoogleFonts.ubuntu().fontFamily,
         ),
         home: HomePage(key: homePageKey));
   }
@@ -120,6 +122,30 @@ class HomePageState extends State<HomePage> {
         });
   }
 
+  Future<void> _displayConfirmDialog(
+      BuildContext context, String text, VoidCallback onPressed) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(text),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'OK',
+                ),
+                onPressed: () {
+                  onPressed();
+                  setState(() {
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,23 +180,35 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              DragTarget<Object>(
-                builder: ((context, candidateData, rejectedData) {
-                  return Tooltip(
-                    message: "Drag statement here to delete",
-                    child: Icon(
-                      Icons.delete,
-                      color:
-                          candidateData.isNotEmpty ? Colors.red : Colors.black,
-                      size: 100,
-                    ),
-                  );
-                }),
-                onAccept: (statement) {
-                  if (statement is DragBlockWrapper) {
-                    mainKey.currentState!.delete(statement.ind);
-                  }
-                },
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: DragTarget<Object>(
+                  builder: ((context, candidateData, rejectedData) {
+                    return Tooltip(
+                      message:
+                          "Drag statement here to delete, click to delete all",
+                      child: IconButton(
+                          iconSize: 100,
+                          icon: Icon(
+                            Icons.delete,
+                          ),
+                          color: candidateData.isNotEmpty
+                              ? Colors.red
+                              : Colors.black,
+                          onPressed: () {
+                            _displayConfirmDialog(context, "Delete all blocks?",
+                                () {
+                              mainKey.currentState!.clear();
+                            });
+                          }),
+                    );
+                  }),
+                  onAccept: (statement) {
+                    if (statement is DragBlockWrapper) {
+                      mainKey.currentState!.delete(statement.ind);
+                    }
+                  },
+                ),
               )
             ],
           ),
