@@ -94,6 +94,12 @@ class MainState extends State<Main> {
     });
   }
 
+  void clear() {
+    setState(() {
+      body.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     print("build" + body.toString());

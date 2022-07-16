@@ -11,7 +11,10 @@ class OutputState extends State<Output> {
   String text = "Output:\n";
   @override
   Widget build(BuildContext context) {
-    return Text(text);
+    return Text(
+      text,
+      style: TextStyle(fontSize: 20),
+    );
   }
 
   void print(String message) {
