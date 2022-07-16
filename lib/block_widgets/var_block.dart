@@ -1,4 +1,3 @@
-import 'package:blocks/block_widgets/block_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:blocks/globals.dart';
 
@@ -21,13 +20,13 @@ class VarBlockState extends State<VarBlock> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      constraints: BoxConstraints(minWidth: 200, minHeight: 40),
+      constraints: const BoxConstraints(minWidth: 200, minHeight: 40),
       decoration: const BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 4),
         alignment: Alignment.center,
         child: Text(
           name,
@@ -55,7 +54,7 @@ class _DragContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      constraints: BoxConstraints(minWidth: 50),
+      constraints: const BoxConstraints(minWidth: 50),
       decoration: const BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -63,7 +62,7 @@ class _DragContent extends StatelessWidget {
       child: Row(children: [
         Expanded(
           child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 4),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
               alignment: Alignment.center,
               child: Text(
                 name,
@@ -80,7 +79,7 @@ class _DragContent extends StatelessWidget {
               onPressed: () {
                 homePageKey.currentState!.deleteVar(name);
               },
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               color: Colors.white,
             )),
         Align(
@@ -89,7 +88,7 @@ class _DragContent extends StatelessWidget {
               onPressed: () {
                 homePageKey.currentState!.editVariable(name);
               },
-              icon: Icon(Icons.edit),
+              icon: const Icon(Icons.edit),
               color: Colors.white,
             ))
       ]),
@@ -110,7 +109,7 @@ class VarDrag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         child: Draggable<String>(
             data: name, child: _DragContent(name: name), feedback: block));
   }

@@ -1,7 +1,6 @@
 import 'package:blocks/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:blocks/utility.dart';
-import 'all.dart';
 
 class DragBlockWrapper extends StatefulWidget {
   final Widget child;
@@ -20,7 +19,7 @@ class _DragBlockWrapperState extends State<DragBlockWrapper> {
       builder: (context, candidateData, rejectedData) {
         return Column(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Draggable<DragBlockWrapper>(
                 child: widget.child,
@@ -39,8 +38,8 @@ class _DragBlockWrapperState extends State<DragBlockWrapper> {
             candidateData.isNotEmpty
                 ? Container(
                     height: 50,
-                    margin: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
+                    margin: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
                         color: Colors.grey,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   )
@@ -76,12 +75,9 @@ class MainState extends State<Main> {
   var body = <Widget>[];
 
   void delete(int ind) {
-    print(ind);
-    print(body);
     setState(() {
       body.removeAt(ind);
     });
-    print(body);
   }
 
   void add(Widget statement, int ind) {
@@ -102,7 +98,6 @@ class MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    print("build" + body.toString());
     var children = body.asMap().entries.map(
       (e) {
         return DragBlockWrapper(child: e.value, ind: e.key);
@@ -115,9 +110,9 @@ class MainState extends State<Main> {
             children: [
               Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.grey,
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   height: 40,
                   margin: const EdgeInsets.all(4),
@@ -131,8 +126,8 @@ class MainState extends State<Main> {
               candidateData.isNotEmpty
                   ? Container(
                       height: 50,
-                      margin: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
                           color: Colors.grey,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                     )

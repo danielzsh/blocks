@@ -104,7 +104,7 @@ class HomePageState extends State<HomePage> {
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(
+                    child: const Text(
                       'OK',
                     ),
                     onPressed: (_errorText != null)
@@ -132,7 +132,7 @@ class HomePageState extends State<HomePage> {
             title: Text(text),
             actions: <Widget>[
               TextButton(
-                child: Text(
+                child: const Text(
                   'OK',
                 ),
                 onPressed: () {
@@ -154,7 +154,7 @@ class HomePageState extends State<HomePage> {
         title: const Text('Blocks'),
       ),
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
+        SizedBox(
           width: 300,
           // height: MediaQuery.of(context).size.height,
           child: Column(
@@ -163,11 +163,11 @@ class HomePageState extends State<HomePage> {
                 child: ListView(
                   controller: ScrollController(),
                   children: [
-                    PrintDrag(),
-                    SetDrag(),
-                    ChangeDrag(),
+                    const PrintDrag(),
+                    const SetDrag(),
+                    const ChangeDrag(),
                     Container(
-                        margin: EdgeInsets.all(8),
+                        margin: const EdgeInsets.all(8),
                         child: Container(
                           margin: const EdgeInsets.only(top: 32),
                           child: ElevatedButton(
@@ -190,7 +190,7 @@ class HomePageState extends State<HomePage> {
                           "Drag statement here to delete, click to delete all",
                       child: IconButton(
                           iconSize: 100,
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.delete,
                           ),
                           color: candidateData.isNotEmpty

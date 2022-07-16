@@ -11,7 +11,7 @@ class Block extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.all(4),
         height: 50,
-        constraints: BoxConstraints(maxWidth: 800),
+        constraints: const BoxConstraints(maxWidth: 800),
         decoration: BoxDecoration(
             color: color,
             borderRadius: const BorderRadius.all(Radius.circular(10))),

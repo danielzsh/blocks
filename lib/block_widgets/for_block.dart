@@ -2,59 +2,14 @@ import 'package:blocks/block_widgets/all.dart';
 import 'package:blocks/utility.dart';
 import 'package:flutter/material.dart';
 import 'all.dart';
-import 'package:blocks/globals.dart';
-
-class TextBox extends StatelessWidget {
-  const TextBox({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: TextField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.white),
-        ));
-  }
-}
-
-class _DragContent extends StatelessWidget {
-  const _DragContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      width: 100,
-      height: 40,
-      margin: const EdgeInsets.all(8),
-      child: Container(
-          margin: const EdgeInsets.all(8),
-          child: const Center(
-            child: Text('for ___ in ____',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    decoration: TextDecoration.none,
-                    fontWeight: FontWeight.normal)),
-          )),
-    );
-  }
-}
+import 'drag_wrapper.dart';
 
 class ForDrag extends StatelessWidget {
   const ForDrag({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return const Draggable<Type>(
-      data: For,
-      feedback: _DragContent(),
-      child: _DragContent(),
-    );
+    return const Drag(
+        data: For, content: 'for ___ in ____', color: Colors.black);
   }
 }
 

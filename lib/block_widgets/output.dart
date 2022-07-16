@@ -13,7 +13,7 @@ class OutputState extends State<Output> {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontSize: 20),
+      style: const TextStyle(fontSize: 20),
     );
   }
 
