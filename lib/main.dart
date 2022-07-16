@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: GoogleFonts.ubuntu().fontFamily,
         ),
+        debugShowCheckedModeBanner: false,
         home: HomePage(key: homePageKey));
   }
 }
