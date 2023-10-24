@@ -1,5 +1,5 @@
-A sad attempt to remake Scratch in flutter.<br>
-See sad new features below:
+An attempt to remake Scratch in flutter.<br>
+See new features below:
 ![](images/features.png)
 # Try it out:
-https://satanic-santa.github.io/blocks/#/
+https://devo1ution.github.io/blocks
