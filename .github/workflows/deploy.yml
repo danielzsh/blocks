@@ -20,7 +20,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git status
-          git remote add origin https://${{secrets.commit_secret}}@github.com/satanic-santa/blocks.git
+          git remote add origin https://${{secrets.commit_secret}}@github.com/${{ github.actor }}/blocks.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
